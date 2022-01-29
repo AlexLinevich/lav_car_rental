@@ -4,14 +4,15 @@ public class CarEntity {
 
     private Integer id;
     private String model;
-    private String category;
+    private CarCategoryEntity carCategoryEntity;
     private String colour;
     private Integer seatsQuantity;
 
-    public CarEntity(Integer id, String model, String category, String colour, Integer seatsQuantity) {
+    public CarEntity(Integer id, String model, CarCategoryEntity carCategoryEntity,
+                     String colour, Integer seatsQuantity) {
         this.id = id;
         this.model = model;
-        this.category = category;
+        this.carCategoryEntity = carCategoryEntity;
         this.colour = colour;
         this.seatsQuantity = seatsQuantity;
     }
@@ -35,12 +36,12 @@ public class CarEntity {
         this.model = model;
     }
 
-    public String getCategory() {
-        return category;
+    public CarCategoryEntity getCarCategory() {
+        return carCategoryEntity;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCarCategory(CarCategoryEntity carCategoryEntity) {
+        this.carCategoryEntity = carCategoryEntity;
     }
 
     public String getColour() {
@@ -64,7 +65,7 @@ public class CarEntity {
         return "CarEntity{" +
                 "id=" + id +
                 ", model='" + model + '\'' +
-                ", category='" + category + '\'' +
+                ", carCategory='" + carCategoryEntity + '\'' +
                 ", colour='" + colour + '\'' +
                 ", seatsQuantity=" + seatsQuantity +
                 '}';

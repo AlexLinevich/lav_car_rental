@@ -20,13 +20,13 @@ public class CarDao implements Dao<Integer, CarEntity> {
             WHERE id = ?;
             """;
     private static final String SAVE_SQL = """
-            INSERT INTO car(model, category, colour, seats_quantity) 
+            INSERT INTO car(model, car_category_id, colour, seats_quantity) 
             VALUES (?, ?, ?, ?); 
             """;
     private static final String UPDATE_SQL = """
             UPDATE car
             SET model = ?,
-                category = ?,
+                car_category_id = ?,
                 colour = ?,
                 seats_quantity = ?
             WHERE id = ?;    
@@ -34,7 +34,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
     private static final String FIND_ALL_SQL = """
             SELECT id, 
                 model, 
-                category, 
+                car_category_id, 
                 colour, 
                 seats_quantity
             FROM car
@@ -50,7 +50,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
     public List<CarEntity> findAll() {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL)) {
-            final var resultSet = preparedStatement.executeQuery();
+            var resultSet = preparedStatement.executeQuery();
             List<CarEntity> carEntities = new ArrayList<>();
             while (resultSet.next()) {
                 carEntities.add(buildCarEntity(resultSet));
@@ -82,7 +82,8 @@ public class CarDao implements Dao<Integer, CarEntity> {
         return new CarEntity(
                 resultSet.getInt("id"),
                 resultSet.getString("model"),
-                resultSet.getString("category"),
+                carCategoryDao.findById(resultSet.getInt("car_category_id"),
+                        resultSet.getStatement().getConnection()).orElse(null),
                 resultSet.getString("colour"),
                 resultSet.getInt("seats_quantity")
         );
@@ -92,7 +93,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
         try (Connection connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
             preparedStatement.setString(1, carEntity.getModel());
-            preparedStatement.setString(2, carEntity.getCategory());
+            preparedStatement.setInt(2, carEntity.getCarCategory().getId());
             preparedStatement.setString(3, carEntity.getColour());
             preparedStatement.setInt(4, carEntity.getSeatsQuantity());
             preparedStatement.setInt(5, carEntity.getId());
@@ -107,7 +108,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, carEntity.getModel());
-            preparedStatement.setString(2, carEntity.getCategory());
+            preparedStatement.setInt(2, carEntity.getCarCategory().getId());
             preparedStatement.setString(3, carEntity.getColour());
             preparedStatement.setInt(4, carEntity.getSeatsQuantity());
 

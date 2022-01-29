@@ -1,16 +1,29 @@
 package by.lav.car.rental;
 
 import by.lav.car.rental.dao.CarDao;
+import by.lav.car.rental.entity.CarCategoryEntity;
 import by.lav.car.rental.entity.CarEntity;
+import by.lav.car.rental.util.ConnectionManager;
 
 public class DaoRunner {
 
     public static void main(String[] args) {
-        final var carEntities = CarDao.getInstance().findAll();
-        System.out.println(carEntities);
+        try {
+            var carEntities = CarDao.getInstance().findById(11);
+            System.out.println(carEntities);
+        } finally {
+            ConnectionManager.closePool();
+        }
+
+//        testFindAll();
 //        updateTest();
 //        deleteTest();
 //        saveTest();
+    }
+
+    private static void testFindAll() {
+        var carEntities = CarDao.getInstance().findAll();
+        System.out.println(carEntities);
     }
 
     private static void updateTest() {
@@ -32,9 +45,10 @@ public class DaoRunner {
 
     private static void saveTest() {
         var carDao = CarDao.getInstance();
+        var carCategory = new CarCategoryEntity();
         var carEntity = new CarEntity();
         carEntity.setModel("TOYOTA RAV4");
-        carEntity.setCategory("MIDDLE SUV");
+        carEntity.setCarCategory(carCategory);
         carEntity.setColour("white");
         carEntity.setSeatsQuantity(5);
 
