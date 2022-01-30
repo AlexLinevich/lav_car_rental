@@ -12,13 +12,10 @@ import java.util.Optional;
 public class CarCategoryDao implements Dao<Integer, CarCategoryEntity> {
 
     public static final CarCategoryDao INSTANCE = new CarCategoryDao();
-    private static final String FIND_BY_ID_SQL = """
-            SELECT id,
-                category,
-                day_price
-            FROM car_category
-            WHERE id = ?
-            """;
+    private static final String FIND_BY_ID_SQL =
+            "SELECT id, category, day_price " +
+            "FROM car_category " +
+            "WHERE id = ? ";
 
     private CarCategoryDao() {
     }

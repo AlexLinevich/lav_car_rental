@@ -15,33 +15,22 @@ import java.util.Optional;
 public class CarDao implements Dao<Integer, CarEntity> {
 
     private static final CarDao INSTANCE = new CarDao();
-    private static final String DELETE_SQL = """
-            DELETE FROM car
-            WHERE id = ?;
-            """;
-    private static final String SAVE_SQL = """
-            INSERT INTO car(model, car_category_id, colour, seats_quantity) 
-            VALUES (?, ?, ?, ?); 
-            """;
-    private static final String UPDATE_SQL = """
-            UPDATE car
-            SET model = ?,
-                car_category_id = ?,
-                colour = ?,
-                seats_quantity = ?
-            WHERE id = ?;    
-            """;
-    private static final String FIND_ALL_SQL = """
-            SELECT id, 
-                model, 
-                car_category_id, 
-                colour, 
-                seats_quantity
-            FROM car
-            """;
-    private static final String FIND_BY_ID_SQL = FIND_ALL_SQL + """
-            WHERE id = ?;
-            """;
+    private static final String DELETE_SQL =
+            "DELETE FROM car " +
+            "WHERE id = ? ";
+    private static final String SAVE_SQL =
+            "INSERT INTO car(model, car_category_id, colour, seats_quantity) " +
+            "VALUES (?, ?, ?, ?) ";
+    private static final String UPDATE_SQL =
+            "UPDATE car " +
+            "SET model = ?, car_category_id = ?, colour = ?, seats_quantity = ? " +
+            "WHERE id = ? ";
+    private static final String FIND_ALL_SQL =
+            "SELECT id, model, car_category_id, colour, seats_quantity " +
+            "FROM car ";
+    private static final String FIND_BY_ID_SQL =
+            FIND_ALL_SQL +
+            " WHERE id = ? ";
     private final CarCategoryDao carCategoryDao = CarCategoryDao.getInstance();
 
     private CarDao() {
