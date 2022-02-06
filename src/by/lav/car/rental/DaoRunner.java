@@ -9,19 +9,23 @@ public class DaoRunner {
 
     public static void main(String[] args) {
         try {
-            var carEntities = CarDao.getInstance().findById(11);
-            System.out.println(carEntities);
-        } finally {
-            ConnectionManager.closePool();
-        }
-
+            findByIdTest();
 //        testFindAll();
 //        updateTest();
 //        deleteTest();
 //        saveTest();
+        } finally {
+            ConnectionManager.closePool();
+        }
+
     }
 
-    private static void testFindAll() {
+    private static void findByIdTest() {
+        var carEntities = CarDao.getInstance().findById(11);
+        System.out.println(carEntities);
+    }
+
+    private static void findAllTest() {
         var carEntities = CarDao.getInstance().findAll();
         System.out.println(carEntities);
     }

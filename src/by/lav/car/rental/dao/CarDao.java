@@ -17,25 +17,26 @@ public class CarDao implements Dao<Integer, CarEntity> {
     private static final CarDao INSTANCE = new CarDao();
     private static final String DELETE_SQL =
             "DELETE FROM car " +
-            "WHERE id = ? ";
+                    "WHERE id = ? ";
     private static final String SAVE_SQL =
             "INSERT INTO car(model, car_category_id, colour, seats_quantity) " +
-            "VALUES (?, ?, ?, ?) ";
+                    "VALUES (?, ?, ?, ?) ";
     private static final String UPDATE_SQL =
             "UPDATE car " +
-            "SET model = ?, car_category_id = ?, colour = ?, seats_quantity = ? " +
-            "WHERE id = ? ";
+                    "SET model = ?, car_category_id = ?, colour = ?, seats_quantity = ? " +
+                    "WHERE id = ? ";
     private static final String FIND_ALL_SQL =
             "SELECT id, model, car_category_id, colour, seats_quantity " +
-            "FROM car ";
+                    "FROM car ";
     private static final String FIND_BY_ID_SQL =
             FIND_ALL_SQL +
-            " WHERE id = ? ";
+                    " WHERE id = ? ";
     private final CarCategoryDao carCategoryDao = CarCategoryDao.getInstance();
 
     private CarDao() {
     }
 
+    @Override
     public List<CarEntity> findAll() {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL)) {
@@ -50,9 +51,17 @@ public class CarDao implements Dao<Integer, CarEntity> {
         }
     }
 
+    @Override
     public Optional<CarEntity> findById(Integer id) {
-        try (Connection connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
+        try (var connection = ConnectionManager.get()) {
+            return findById(id, connection);
+        } catch (SQLException throwables) {
+            throw new DaoException(throwables);
+        }
+    }
+
+    private Optional<CarEntity> findById(Integer id, Connection connection) {
+        try (var preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
             preparedStatement.setInt(1, id);
 
             var resultSet = preparedStatement.executeQuery();
@@ -78,6 +87,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
         );
     }
 
+    @Override
     public void update(CarEntity carEntity) {
         try (Connection connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
@@ -93,6 +103,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
         }
     }
 
+    @Override
     public CarEntity save(CarEntity carEntity) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -113,6 +124,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
         }
     }
 
+    @Override
     public boolean delete(Integer id) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(DELETE_SQL)) {

@@ -7,9 +7,9 @@ public interface Dao<K, E> {
 
     boolean delete(K id);
 
-    E save(E carEntity);
+    E save(E entity);
 
-    void update(E carEntity);
+    void update(E entity);
 
     Optional<E> findById(K id);
 

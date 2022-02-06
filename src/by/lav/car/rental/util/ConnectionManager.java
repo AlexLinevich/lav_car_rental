@@ -11,13 +11,14 @@ import java.util.concurrent.BlockingQueue;
 
 public final class ConnectionManager {
 
-    public static final String USERNAME_KEY = "db.username";
-    public static final String PASSWORD_KEY = "db.password";
-    public static final String URL_KEY = "db.url";
-    public static final String POOL_SIZE_KEY = "db.pool.size";
+    private static final String USERNAME_KEY = "db.username";
+    private static final String PASSWORD_KEY = "db.password";
+    private static final String URL_KEY = "db.url";
+    private static final String POOL_SIZE_KEY = "db.pool.size";
+    private static final String DRIVER_KEY = "db.driver";
     private static BlockingQueue<Connection> pool;
     private static List<Connection> sourceConnections;
-    public static final int DEFAULT_POOL_SIZE = 10;
+    private static final int DEFAULT_POOL_SIZE = 10;
 
     static {
         loadDriver();
@@ -29,7 +30,7 @@ public final class ConnectionManager {
 
     private static void loadDriver() {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(PropertiesUtil.get(DRIVER_KEY));
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
