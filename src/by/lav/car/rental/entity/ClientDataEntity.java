@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Builder
 public class ClientDataEntity {
 
-
     private Integer id;
     private Integer userId;
     private String driverLicenceNo;

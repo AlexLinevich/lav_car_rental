@@ -19,14 +19,14 @@ public class CarCategoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer carCategoryId = Integer.valueOf(req.getParameter("carCategoryId"));
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         try (PrintWriter writer = resp.getWriter()) {
             writer.write("<h1>КАТЕГОРИЯ АВТОМОБИЛЯ</h1>");
             writer.write("<ul>");
-            CarCategoryDto carCategoryServiceById = carCategoryService.findById(carCategoryId);
+            Integer carCategoryId = Integer.valueOf(req.getParameter("carCategoryId"));
+            CarCategoryDto carCategoryServiceById = carCategoryService.findById(carCategoryId).get();
             writer.write("КАТЕГОРИЯ АВТОМОБИЛЯ: " + carCategoryServiceById.getCategory() +
                     "   ЦЕНА АРЕНДЫ ЗА СУТКИ: " + carCategoryServiceById.getDayPrice());
             writer.write("<ul>");

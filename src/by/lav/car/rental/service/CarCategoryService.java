@@ -3,6 +3,8 @@ package by.lav.car.rental.service;
 import by.lav.car.rental.dao.CarCategoryDao;
 import by.lav.car.rental.dto.CarCategoryDto;
 
+import java.util.Optional;
+
 public class CarCategoryService {
 
     private static final CarCategoryService INSTANCE = new CarCategoryService();
@@ -12,15 +14,13 @@ public class CarCategoryService {
     private CarCategoryService() {
     }
 
-    public CarCategoryDto findById(Integer id) {
+    public Optional<CarCategoryDto> findById(Integer id) {
         return carCategoryDao.findById(id)
-                .map(carCategoryEntity -> CarCategoryDto
-                        .builder()
+                .map(carCategoryEntity -> CarCategoryDto.builder()
                         .id(carCategoryEntity.getId())
                         .category(carCategoryEntity.getCategory())
                         .dayPrice(carCategoryEntity.getDayPrice())
-                        .build())
-                .orElseThrow();
+                        .build());
     }
 
     public static CarCategoryService getInstance() {

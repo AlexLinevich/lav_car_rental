@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 
 public class UsersDao implements Dao<Integer, UsersEntity> {
 
@@ -103,7 +105,7 @@ public class UsersDao implements Dao<Integer, UsersEntity> {
     @SneakyThrows
     public UsersEntity save(UsersEntity usersEntity) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
+             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, usersEntity.getFirstName());
             preparedStatement.setString(2, usersEntity.getLastName());
             preparedStatement.setString(3, usersEntity.getEmail());

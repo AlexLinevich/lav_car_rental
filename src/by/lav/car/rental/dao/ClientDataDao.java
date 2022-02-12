@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 public class ClientDataDao implements Dao<Integer, ClientDataEntity> {
 
     private static final ClientDataDao INSTANCE = new ClientDataDao();
@@ -53,7 +55,7 @@ public class ClientDataDao implements Dao<Integer, ClientDataEntity> {
     @SneakyThrows
     public ClientDataEntity save(ClientDataEntity clientDataEntity) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
+             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, clientDataEntity.getUserId());
             preparedStatement.setString(2, clientDataEntity.getDriverLicenceNo());
             preparedStatement.setTimestamp(3,

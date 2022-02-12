@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 public class CarCategoryDao implements Dao<Integer, CarCategoryEntity> {
 
     private static final CarCategoryDao INSTANCE = new CarCategoryDao();
@@ -99,7 +101,7 @@ public class CarCategoryDao implements Dao<Integer, CarCategoryEntity> {
     @Override
     public CarCategoryEntity save(CarCategoryEntity carCategoryEntity) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
+             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, carCategoryEntity.getCategory());
             preparedStatement.setBigDecimal(2, carCategoryEntity.getDayPrice());
 

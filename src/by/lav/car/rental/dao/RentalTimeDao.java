@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 public class RentalTimeDao implements Dao<Integer, RentalTimeEntity> {
 
     private static final RentalTimeDao INSTANCE = new RentalTimeDao();
@@ -49,12 +51,10 @@ public class RentalTimeDao implements Dao<Integer, RentalTimeEntity> {
     @SneakyThrows
     public RentalTimeEntity save(RentalTimeEntity rentalTimeEntity) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
+             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, rentalTimeEntity.getCarId());
-            preparedStatement.setTimestamp(2,
-                    Timestamp.valueOf(String.valueOf(rentalTimeEntity.getBeginTime())));
-            preparedStatement.setTimestamp(3,
-                    Timestamp.valueOf(String.valueOf(rentalTimeEntity.getEndTime())));
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(rentalTimeEntity.getBeginTime()));
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(rentalTimeEntity.getEndTime()));
             preparedStatement.setInt(4, rentalTimeEntity.getOrderId());
 
             preparedStatement.executeUpdate();
@@ -72,10 +72,8 @@ public class RentalTimeDao implements Dao<Integer, RentalTimeEntity> {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
             preparedStatement.setInt(1, rentalTimeEntity.getCarId());
-            preparedStatement.setTimestamp(2,
-                    Timestamp.valueOf(String.valueOf(rentalTimeEntity.getBeginTime())));
-            preparedStatement.setTimestamp(3,
-                    Timestamp.valueOf(String.valueOf(rentalTimeEntity.getEndTime())));
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(rentalTimeEntity.getBeginTime()));
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(rentalTimeEntity.getEndTime()));
             preparedStatement.setInt(4, rentalTimeEntity.getOrderId());
             preparedStatement.setInt(5, rentalTimeEntity.getId());
 

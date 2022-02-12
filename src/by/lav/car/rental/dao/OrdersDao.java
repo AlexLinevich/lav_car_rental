@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
 public class OrdersDao implements Dao<Integer, OrdersEntity> {
 
     private static final OrdersDao INSTANCE = new OrdersDao();
@@ -49,13 +51,11 @@ public class OrdersDao implements Dao<Integer, OrdersEntity> {
     @SneakyThrows
     public OrdersEntity save(OrdersEntity ordersEntity) {
         try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(SAVE_SQL)) {
+             var preparedStatement = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, ordersEntity.getUserId());
             preparedStatement.setInt(2, ordersEntity.getCarId());
-            preparedStatement.setTimestamp(3,
-                    Timestamp.valueOf(String.valueOf(ordersEntity.getBeginTime())));
-            preparedStatement.setTimestamp(4,
-                    Timestamp.valueOf(String.valueOf(ordersEntity.getEndTime())));
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(ordersEntity.getBeginTime()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(ordersEntity.getEndTime()));
             preparedStatement.setString(5, ordersEntity.getStatus().name());
             preparedStatement.setString(6, ordersEntity.getMessage());
 
@@ -75,10 +75,8 @@ public class OrdersDao implements Dao<Integer, OrdersEntity> {
              var preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
             preparedStatement.setInt(1, ordersEntity.getUserId());
             preparedStatement.setInt(2, ordersEntity.getCarId());
-            preparedStatement.setTimestamp(3,
-                    Timestamp.valueOf(String.valueOf(ordersEntity.getBeginTime())));
-            preparedStatement.setTimestamp(4,
-                    Timestamp.valueOf(String.valueOf(ordersEntity.getEndTime())));
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(ordersEntity.getBeginTime()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(ordersEntity.getEndTime()));
             preparedStatement.setString(5, ordersEntity.getStatus().name());
             preparedStatement.setString(6, ordersEntity.getMessage());
             preparedStatement.setInt(7, ordersEntity.getId());
