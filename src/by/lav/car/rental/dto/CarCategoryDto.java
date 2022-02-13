@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 @Value
 @Builder
 public class CarCategoryDto {
-
     Integer id;
     String category;
     BigDecimal dayPrice;

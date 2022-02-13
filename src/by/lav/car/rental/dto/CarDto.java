@@ -6,7 +6,6 @@ import lombok.Value;
 @Value
 @Builder
 public class CarDto {
-
     Integer id;
     String description;
     Integer carCategoryId;
