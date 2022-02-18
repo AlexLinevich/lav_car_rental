@@ -33,6 +33,9 @@ public class UsersDao implements Dao<Integer, UsersEntity> {
     private static final String FIND_ALL_BY_ID_SQL =
             FIND_ALL_SQL +
                     " WHERE id = ? ";
+    private static final String FIND_ALL_BY_EMAIL_AND_PASSWORD_SQL =
+            "SELECT id, first_name, last_name, email, password, role " +
+                    "FROM users WHERE email = ? AND password = ? ";
 
     private UsersDao() {
     }
@@ -48,6 +51,22 @@ public class UsersDao implements Dao<Integer, UsersEntity> {
                 usersEntities.add(buildUsersEntity(resultSet));
             }
             return usersEntities;
+        }
+    }
+
+    @SneakyThrows
+    public Optional<UsersEntity> findByEmailAndPassword(String email, String password) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_ALL_BY_EMAIL_AND_PASSWORD_SQL)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            var resultSet = preparedStatement.executeQuery();
+            UsersEntity usersEntity = null;
+            if (resultSet.next()) {
+                usersEntity = buildUsersEntity(resultSet);
+            }
+            return Optional.ofNullable(usersEntity);
         }
     }
 
