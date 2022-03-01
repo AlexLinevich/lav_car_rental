@@ -8,15 +8,19 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import static by.lav.car.rental.util.UrlPath.LOCALE;
 import static by.lav.car.rental.util.UrlPath.LOGIN;
-import static by.lav.car.rental.util.UrlPath.LOGOUT;
 
-@WebServlet(LOGOUT)
-public class LogoutServlet extends HttpServlet {
+@WebServlet(LOCALE)
+public class LocaleServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().invalidate();
-        resp.sendRedirect(LOGIN);
+        var language = req.getParameter("lang");
+        req.getSession().setAttribute("lang", language);
+
+        var prevPage = req.getHeader("referer");
+        var page = prevPage != null ? prevPage : LOGIN;
+        resp.sendRedirect(page + "?lang=" + language);
     }
 }

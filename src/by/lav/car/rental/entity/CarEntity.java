@@ -7,14 +7,25 @@ public class CarEntity {
     private CarCategoryEntity carCategoryEntity;
     private String colour;
     private Integer seatsQuantity;
+    private String image;
 
     public CarEntity(Integer id, String model, CarCategoryEntity carCategoryEntity,
-                     String colour, Integer seatsQuantity) {
+                     String colour, Integer seatsQuantity, String image) {
         this.id = id;
         this.model = model;
         this.carCategoryEntity = carCategoryEntity;
         this.colour = colour;
         this.seatsQuantity = seatsQuantity;
+        this.image = image;
+    }
+
+    public CarEntity(String model, CarCategoryEntity carCategoryEntity,
+                     String colour, Integer seatsQuantity, String image) {
+        this.model = model;
+        this.carCategoryEntity = carCategoryEntity;
+        this.colour = colour;
+        this.seatsQuantity = seatsQuantity;
+        this.image = image;
     }
 
     public CarEntity() {
@@ -60,14 +71,23 @@ public class CarEntity {
         this.seatsQuantity = seatsQuantity;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "CarEntity{" +
                 "id=" + id +
                 ", model='" + model + '\'' +
-                ", carCategory='" + carCategoryEntity + '\'' +
+                ", carCategoryEntity=" + carCategoryEntity +
                 ", colour='" + colour + '\'' +
                 ", seatsQuantity=" + seatsQuantity +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

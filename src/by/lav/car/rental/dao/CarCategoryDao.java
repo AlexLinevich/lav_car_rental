@@ -32,8 +32,28 @@ public class CarCategoryDao implements Dao<Integer, CarCategoryEntity> {
     private static final String FIND_BY_ID_SQL =
             FIND_ALL_SQL +
                     "WHERE id = ? ";
+    private static final String FIND_BY_CATEGORY =
+            "SELECT id, category, day_price " +
+                    "FROM car_category " +
+                    "WHERE category = ? ";
 
     private CarCategoryDao() {
+    }
+
+    public Optional<CarCategoryEntity> findByCategory(String category) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_BY_CATEGORY)) {
+            preparedStatement.setString(1, category);
+
+            var resultSet = preparedStatement.executeQuery();
+            CarCategoryEntity carCategoryEntity = null;
+            if (resultSet.next()) {
+                carCategoryEntity = buildCarCategoryEntity(resultSet);
+            }
+            return Optional.ofNullable(carCategoryEntity);
+        } catch (SQLException throwables) {
+            throw new DaoException(throwables);
+        }
     }
 
     @Override

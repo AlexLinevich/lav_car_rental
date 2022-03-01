@@ -59,7 +59,7 @@ public class ClientDataDao implements Dao<Integer, ClientDataEntity> {
             preparedStatement.setInt(1, clientDataEntity.getUserId());
             preparedStatement.setString(2, clientDataEntity.getDriverLicenceNo());
             preparedStatement.setTimestamp(3,
-                    Timestamp.valueOf(String.valueOf(clientDataEntity.getDlExpirationDay())));
+                    Timestamp.valueOf(clientDataEntity.getDlExpirationDay().atStartOfDay()));
             preparedStatement.setBigDecimal(4, clientDataEntity.getCreditAmount());
 
             preparedStatement.executeUpdate();
@@ -79,7 +79,7 @@ public class ClientDataDao implements Dao<Integer, ClientDataEntity> {
             preparedStatement.setInt(1, clientDataEntity.getUserId());
             preparedStatement.setString(2, clientDataEntity.getDriverLicenceNo());
             preparedStatement.setTimestamp(3,
-                    Timestamp.valueOf(String.valueOf(clientDataEntity.getDlExpirationDay())));
+                    Timestamp.valueOf(clientDataEntity.getDlExpirationDay().atStartOfDay()));
             preparedStatement.setBigDecimal(4, clientDataEntity.getCreditAmount());
             preparedStatement.setInt(5, clientDataEntity.getId());
 

@@ -35,7 +35,9 @@ public class UsersDao implements Dao<Integer, UsersEntity> {
                     " WHERE id = ? ";
     private static final String FIND_ALL_BY_EMAIL_AND_PASSWORD_SQL =
             "SELECT id, first_name, last_name, email, password, role " +
-                    "FROM users WHERE email = ? AND password = ? ";
+                    "FROM users " +
+                    "WHERE email = ? " +
+                    "AND password = ? ";
 
     private UsersDao() {
     }

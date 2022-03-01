@@ -30,9 +30,12 @@ public class RentalTimeDao implements Dao<Integer, RentalTimeEntity> {
     private static final String FIND_ALL_SQL =
             "SELECT id, car_id, begin_time, end_time, order_id " +
                     "FROM rental_time ";
-    private static final String FIND_ALL_BY_ID_SQL =
+    private static final String FIND_BY_ID_SQL =
             FIND_ALL_SQL +
                     " WHERE id = ? ";
+    private static final String FIND_ALL_BY_CAR_ID_SQL =
+            FIND_ALL_SQL +
+                    " WHERE car_id = ? ";
 
     private RentalTimeDao() {
     }
@@ -91,7 +94,7 @@ public class RentalTimeDao implements Dao<Integer, RentalTimeEntity> {
 
     @SneakyThrows
     public Optional<RentalTimeEntity> findById(Integer id, Connection connection) {
-        try (var preparedStatement = connection.prepareStatement(FIND_ALL_BY_ID_SQL)) {
+        try (var preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL)) {
             preparedStatement.setInt(1, id);
 
             var resultSet = preparedStatement.executeQuery();
@@ -108,6 +111,20 @@ public class RentalTimeDao implements Dao<Integer, RentalTimeEntity> {
     public List<RentalTimeEntity> findAll() {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL)) {
+            var resultSet = preparedStatement.executeQuery();
+            List<RentalTimeEntity> rentalTimeEntities = new ArrayList<>();
+            while (resultSet.next()) {
+                rentalTimeEntities.add(buildRentalTimeEntity(resultSet));
+            }
+            return rentalTimeEntities;
+        }
+    }
+
+    @SneakyThrows
+    public List<RentalTimeEntity> findAllByCarId(Integer carId) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_ALL_BY_CAR_ID_SQL)) {
+            preparedStatement.setInt(1, carId);
             var resultSet = preparedStatement.executeQuery();
             List<RentalTimeEntity> rentalTimeEntities = new ArrayList<>();
             while (resultSet.next()) {

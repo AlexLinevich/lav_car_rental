@@ -9,4 +9,5 @@ public class CarDto {
     Integer id;
     String description;
     Integer carCategoryId;
+    String image;
 }

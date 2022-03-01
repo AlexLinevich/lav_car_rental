@@ -19,14 +19,14 @@ public class CarDao implements Dao<Integer, CarEntity> {
             "DELETE FROM car " +
                     "WHERE id = ? ";
     private static final String SAVE_SQL =
-            "INSERT INTO car(model, car_category_id, colour, seats_quantity) " +
-                    "VALUES (?, ?, ?, ?) ";
+            "INSERT INTO car(model, car_category_id, colour, seats_quantity, image) " +
+                    "VALUES (?, ?, ?, ?, ?) ";
     private static final String UPDATE_SQL =
             "UPDATE car " +
-                    "SET model = ?, car_category_id = ?, colour = ?, seats_quantity = ? " +
+                    "SET model = ?, car_category_id = ?, colour = ?, seats_quantity = ?, image = ? " +
                     "WHERE id = ? ";
     private static final String FIND_ALL_SQL =
-            "SELECT id, model, car_category_id, colour, seats_quantity " +
+            "SELECT id, model, car_category_id, colour, seats_quantity, image " +
                     "FROM car ";
     private static final String FIND_BY_ID_SQL =
             FIND_ALL_SQL +
@@ -83,7 +83,8 @@ public class CarDao implements Dao<Integer, CarEntity> {
                 carCategoryDao.findById(resultSet.getInt("car_category_id"),
                         resultSet.getStatement().getConnection()).orElse(null),
                 resultSet.getString("colour"),
-                resultSet.getInt("seats_quantity")
+                resultSet.getInt("seats_quantity"),
+                resultSet.getString("image")
         );
     }
 
@@ -95,7 +96,8 @@ public class CarDao implements Dao<Integer, CarEntity> {
             preparedStatement.setInt(2, carEntity.getCarCategory().getId());
             preparedStatement.setString(3, carEntity.getColour());
             preparedStatement.setInt(4, carEntity.getSeatsQuantity());
-            preparedStatement.setInt(5, carEntity.getId());
+            preparedStatement.setString(5, carEntity.getImage());
+            preparedStatement.setInt(6, carEntity.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -111,6 +113,7 @@ public class CarDao implements Dao<Integer, CarEntity> {
             preparedStatement.setInt(2, carEntity.getCarCategory().getId());
             preparedStatement.setString(3, carEntity.getColour());
             preparedStatement.setInt(4, carEntity.getSeatsQuantity());
+            preparedStatement.setString(5, carEntity.getImage());
 
             preparedStatement.executeUpdate();
 

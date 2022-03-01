@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
@@ -6,6 +6,10 @@
     <title>Title</title>
 </head>
 <body>
+<%@ include file="header.jsp" %>
+<h1>
+    RENTAL CAR
+</h1>
 <form action="${pageContext.request.contextPath}/login" method="post">
     <label for="email">Email:
         <input type="text" name="email" id="email" value="${param.email}" required>

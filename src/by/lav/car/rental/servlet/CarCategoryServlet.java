@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 
-@WebServlet("/car-category")
+import static by.lav.car.rental.util.UrlPath.CAR_CATEGORY;
+
+@WebServlet(CAR_CATEGORY)
 public class CarCategoryServlet extends HttpServlet {
 
     private final CarCategoryService carCategoryService = CarCategoryService.getInstance();
@@ -29,7 +31,7 @@ public class CarCategoryServlet extends HttpServlet {
     @SneakyThrows
     private void sendError(HttpServletResponse resp) {
         resp.setStatus(400);
-        resp.sendError(400, "Такой категории не существует");
+        resp.sendError(400, "NO CATEGORY");
     }
 
     @SneakyThrows

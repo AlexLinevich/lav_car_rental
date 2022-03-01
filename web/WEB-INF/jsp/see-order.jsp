@@ -7,10 +7,9 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<h1>CAR CATEGORY</h1>
+<h1>ORDER</h1>
 <ul>
-    CAR CATEGORY: ${requestScope.carCategory.category}
-    PRICE PER DAY $: ${requestScope.carCategory.dayPrice}
+    ${requestScope.order.description}
 </ul>
 </body>
 </html>

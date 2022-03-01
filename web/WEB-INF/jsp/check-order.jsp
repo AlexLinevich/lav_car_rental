@@ -7,10 +7,12 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<h1>CAR CATEGORY</h1>
+<h1>ORDER</h1>
 <ul>
-    CAR CATEGORY: ${requestScope.carCategory.category}
-    PRICE PER DAY $: ${requestScope.carCategory.dayPrice}
+    ${requestScope.order.description}
 </ul>
+<form action="${pageContext.request.contextPath}/check"  method="get">
+    <button type="submit" name="orderId" value="${order.id}">Check</button>
+</form>
 </body>
 </html>

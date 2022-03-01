@@ -1,34 +1,38 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
+<%@ include file="header.jsp" %>
+
+<h1>
+    <fmt:message key="page.registration.head.registration" />
+</h1>
 <form action="${pageContext.request.contextPath}/registration" method="post">
-    <label for="firstNameId">First name:
-        <input type="text" name="firstName" id="firstNameId">
+    <label for="firstNameId"><fmt:message key="page.registration.first.name" />:
+        <input type="text" name="firstName" id="firstNameId" required>
     </label><br>
-    <label for="lastNameId">Last name:
-        <input type="text" name="lastName" id="lastNameId">
+    <label for="lastNameId"><fmt:message key="page.registration.last.name" />:
+        <input type="text" name="lastName" id="lastNameId" required>
     </label><br>
-    <label for="emailId">Email:
-        <input type="text" name="email" id="emailId">
+    <label for="emailId"><fmt:message key="page.registration.email" />:
+        <input type="text" name="email" id="emailId" required>
     </label><br>
-    <label for="passwordId">Password:
-        <input type="password" name="password" id="passwordId">
+    <label for="passwordId"><fmt:message key="page.registration.password" />:
+        <input type="password" name="password" id="passwordId" required>
     </label><br>
-    <label for="roleId">Role:
+    <label for="roleId"><fmt:message key="page.registration.role" />:
         <select name="role" id="roleId">
             <c:forEach var="role" items="${requestScope.roles}">
                 <option value="${role}">${role}</option>
             </c:forEach>
         </select><br>
     </label>
-    <%--    <label for="dlExpirationDayId">Driver licence expiration day:--%>
-    <%--        <input type="date" name="dlExpirationDay" id="dlExpirationDayId">--%>
-    <%--    </label><br>--%>
-    <button type="submit">Send</button>
+    <button type="submit"><fmt:message key="page.registration.button.send" /></button>
     <c:if test="${not empty requestScope.errors}">
         <div style="color: red">
             <c:forEach var="error" items="${requestScope.errors}">
